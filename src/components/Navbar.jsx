@@ -19,11 +19,12 @@ import pokeball from "../resources/PokeBall.svg";
 const Navbar = () => {
   const classes = useStyles();
   const isSmallScreen = useMediaQuery("(max-width: 1100px)");
+  const isMobileScreen = useMediaQuery("(max-width: 530px)");
 
   return (
     <>
       <AppBar 
-        className={isSmallScreen ? classes.responsiveContainer: classes.container} 
+        className={isSmallScreen ? "responsive-container" : "container"} 
         position="static"
       >
         <Toolbar>
@@ -36,10 +37,11 @@ const Navbar = () => {
                 width="60px"
                 height="auto"
               />
-              { !isSmallScreen && <Typography variant="h5" noWrap style={{ paddingLeft: "15px" }}>Pokémon Team Builder</Typography> }
+              { !isMobileScreen && <Typography variant="h5" noWrap style={{ paddingLeft: "15px" }}>Pokémon Team Builder</Typography> }
+              { isMobileScreen && <Typography variant="h5" noWrap style={{ paddingLeft: "15px" }}>PokéTeam</Typography> }
             </Grid>
           </div>
-          <div className={classes.grow} />
+          <div className="grow" />
           <div>
             <Grid container>
               <NavButton text="Home" path="/" />
@@ -53,17 +55,6 @@ const Navbar = () => {
 };
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    padding: "15px 18vw 15px 18vw",
-    backgroundColor: "#282c34",
-  },
-  responsiveContainer: {
-    padding: "15px 0vw 15px 0vw",
-    backgroundColor: "#282c34",
-  },
-  grow: {
-    flexGrow: 1,
-  },
   desktop: {
     display: 'none',
     [theme.breakpoints.up('md')]: {

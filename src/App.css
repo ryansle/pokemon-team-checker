@@ -6,3 +6,33 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+.container {
+  padding: 15px 18vw 15px 18vw;
+  background-color: #282c34 !important;
+}
+
+.responsive-container {
+  padding: 15px 0vw 15px 0vw;
+  background-color: #282c34 !important;
+}
+
+.paper {
+  margin: 45px 18vw 15px 18vw;
+  background-color: #f5f5f5 !important;
+  padding: 30px 60px 30px 60px;
+}
+
+.responsive-paper {
+  margin: 15px 3vw 15px 3vw;
+  background-color: #f5f5f5 !important;
+  padding: 30px 10px 30px 10px;
+}
+
+.grow {
+  flex-grow: 1;
+}
+
+.title {
+  font-weight: bold;
+}
