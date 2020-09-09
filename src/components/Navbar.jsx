@@ -6,14 +6,17 @@ import {
   Toolbar,
   Typography, 
   Grid,
+  IconButton,
   useMediaQuery
 } from "@material-ui/core";
 import NavButton from "./NavButton";
+import { Link } from "react-router-dom";
 
 // Utilities
 import { makeStyles } from "@material-ui/core/styles";
 
 // Resources
+import { AccountCircle } from "@material-ui/icons";
 import pokeball from "../resources/PokeBall.svg";
 
 const Navbar = () => {
@@ -47,6 +50,12 @@ const Navbar = () => {
               <NavButton text="Home" path="/" />
               <NavButton text="Teams" path="/teams" />
               <NavButton text="Favorites" path="/favorites" />
+              <IconButton component={Link} to="/login">
+                <AccountCircle 
+                  className="white" 
+                  fontSize="medium"
+                />
+              </IconButton>
             </Grid>
           </div>
         </Toolbar>

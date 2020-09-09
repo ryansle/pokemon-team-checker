@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "pokemonteambuilder88833153_identitypool_88833153",
+    "identityPoolName": "pokemonteambuilder52c8b959_identitypool_52c8b959",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "pokemo88833153",
-    "userPoolName": "pokemonteambuilder88833153_userpool_88833153",
+    "resourceNameTruncated": "pokemo52c8b959",
+    "userPoolName": "pokemonteambuilder52c8b959_userpool_52c8b959",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -28,10 +28,10 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "pokemo88833153_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "pokemo52c8b959_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "88833153",
-    "resourceName": "pokemonteambuilder88833153",
+    "sharedId": "52c8b959",
+    "resourceName": "pokemonteambuilder52c8b959",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
@@ -46,9 +46,6 @@
         ]
     },
     "useDefault": "default",
-    "usernameAttributes": [
-        "email"
-    ],
     "userPoolGroupList": [],
     "dependsOn": []
 }

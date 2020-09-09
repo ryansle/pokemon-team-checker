@@ -1,7 +1,7 @@
 {
   "api": {},
   "auth": {
-    "pokemonteambuilder88833153": {
+    "pokemonteambuilder52c8b959": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
