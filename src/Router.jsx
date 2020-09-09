@@ -6,6 +6,7 @@ import { Switch, Route } from "react-router-dom";
 // Sections
 import Home from "./containers/Home";
 import Teams from "./containers/Teams";
+import Favorites from "./containers/Favorites";
 import NotFound from "./containers/NotFound";
 
 const Router = () => {
@@ -20,6 +21,11 @@ const Router = () => {
         path="/teams"
         exact
         component={Teams}
+      />
+      <Route
+        path="/favorites"
+        exact
+        component={Favorites}
       />
       {/* Catch all unmatched routes */}
       <Route component={NotFound} />

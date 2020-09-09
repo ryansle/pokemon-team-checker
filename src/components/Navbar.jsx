@@ -46,6 +46,7 @@ const Navbar = () => {
             <Grid container>
               <NavButton text="Home" path="/" />
               <NavButton text="Teams" path="/teams" />
+              <NavButton text="Favorites" path="/favorites" />
             </Grid>
           </div>
         </Toolbar>
