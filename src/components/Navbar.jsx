@@ -12,7 +12,6 @@ import {
 } from "@material-ui/core";
 import NavButton from "./NavButton";
 import Authentication from "./Authentication"
-import { Link } from "react-router-dom";
 
 // Utilities
 import { makeStyles } from "@material-ui/core/styles";

@@ -7,8 +7,8 @@ import { BrowserRouter as Router } from "react-router-dom";
 import ScrollToTop from "./ScrollToTop";
 
 import Amplify from "aws-amplify";
-import awsExports from "./aws-exports";
-Amplify.configure(awsExports);
+import config from "./aws-exports";
+Amplify.configure(config);
 
 ReactDOM.render(
   <Router>
