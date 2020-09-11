@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 // Components
 import { 
@@ -8,15 +8,19 @@ import {
   Grid,
   Button,
   Divider,
+  LinearProgress,
   useMediaQuery 
 } from "@material-ui/core";
-import { Auth, Hub } from "aws-amplify";
+import { Auth } from "aws-amplify";
 
 // Utilities
 import { makeStyles } from "@material-ui/core/styles";
 import { useAuth } from "../utils/use-auth";
 
-const Authentication = () => {
+// Assets
+import { Clear } from "@material-ui/icons";
+
+const Authentication = ({ toggleModal }) => {
   const classes = useStyles();
   const isSmallScreen = useMediaQuery("(max-width: 1100px)");
 
@@ -37,7 +41,17 @@ const Authentication = () => {
             className={isSmallScreen ? classes.responsivePaper : classes.paper}
             elevation={24}
           >
-            <Typography variant="h6">Create a new account</Typography>
+            <Grid container justify="space-between">
+              <Typography variant="h6">Create a new account</Typography>
+              <Button
+                size="small"
+                variant="contained"
+                color="secondary"
+                onClick={toggleModal}
+              >
+                <Clear/>
+              </Button>
+            </Grid>
             <form noValidate autoComplete="off">
               <TextField
                 name="username"
@@ -73,6 +87,7 @@ const Authentication = () => {
               <Button fullWidth variant="contained" onClick={() => auth.signUp()}>
                 Sign Up
               </Button>
+              <LinearProgress />
             </form>
             <Divider className={classes.divider} />
             <Grid container justify="space-between">
@@ -96,7 +111,17 @@ const Authentication = () => {
             className={isSmallScreen ? classes.responsivePaper : classes.paper}
             elevation={24}
           >
-            <Typography variant="h6">Confirm your account</Typography>
+            <Grid container justify="space-between">
+              <Typography variant="h6">Confirm your account</Typography>
+              <Button
+                size="small"
+                variant="contained"
+                color="secondary"
+                onClick={toggleModal}
+              >
+                <Clear/>
+              </Button>
+            </Grid>
             <form noValidate autoComplete="off">
               <TextField
                 name="authCode"
@@ -119,7 +144,17 @@ const Authentication = () => {
             className={isSmallScreen ? classes.responsivePaper : classes.paper}
             elevation={24}
           >
-            <Typography variant="h6">Sign in to your account</Typography>
+            <Grid container justify="space-between">
+              <Typography variant="h6">Sign into your account</Typography>
+              <Button
+                size="small"
+                variant="contained"
+                color="secondary"
+                onClick={toggleModal}
+              >
+                <Clear/>
+              </Button>
+            </Grid>
             <form noValidate autoComplete="off">
               <TextField
                 name="username"
@@ -140,6 +175,7 @@ const Authentication = () => {
               <Button fullWidth variant="contained" onClick={() => auth.signIn()}>
                 Sign In
               </Button> 
+              <LinearProgress />
             </form>
             <Divider className={classes.divider} />
             <Grid container justify="space-between">
@@ -191,7 +227,7 @@ const useStyles = makeStyles(() => ({
   divider: {
     margin: "2vh 0 2vh 0",
     height: 2,
-  }
+  },
 }));
 
 export default Authentication;

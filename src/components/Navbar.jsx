@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 // Components
 import { 
@@ -7,9 +7,11 @@ import {
   Typography, 
   Grid,
   IconButton,
+  Modal,
   useMediaQuery
 } from "@material-ui/core";
 import NavButton from "./NavButton";
+import Authentication from "./Authentication"
 import { Link } from "react-router-dom";
 
 // Utilities
@@ -23,6 +25,14 @@ const Navbar = () => {
   const classes = useStyles();
   const isSmallScreen = useMediaQuery("(max-width: 1100px)");
   const isMobileScreen = useMediaQuery("(max-width: 530px)");
+
+  const [openAuth, setOpenAuth] = useState(false);
+  
+  const toggleAuthModal = () => { setOpenAuth(!openAuth); };
+
+  const auth = (
+    <Authentication toggleModal={toggleAuthModal}/>
+  );
 
   return (
     <>
@@ -50,7 +60,9 @@ const Navbar = () => {
               <NavButton text="Home" path="/" />
               <NavButton text="Teams" path="/teams" />
               <NavButton text="Favorites" path="/favorites" />
-              <IconButton component={Link} to="/login">
+              <IconButton
+                onClick={toggleAuthModal}
+              >
                 <AccountCircle 
                   className="white" 
                   fontSize="medium"
@@ -59,6 +71,16 @@ const Navbar = () => {
             </Grid>
           </div>
         </Toolbar>
+
+        <Modal
+          open={openAuth}
+          onClose={toggleAuthModal}
+        >
+          <>
+            {auth}
+          </>
+        </Modal>
+
       </AppBar>
     </>
   );
