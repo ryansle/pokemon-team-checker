@@ -27,7 +27,38 @@ const Authentication = () => {
   const classes = useStyles();
   const isSmallScreen = useMediaQuery("(max-width: 1100px)");
 
-  const [formState, updateFormState] = useState(initialFormState);  
+  const [formState, updateFormState] = useState(initialFormState); 
+  const [user, updateUser] = useState(null);
+
+  console.log(formState);
+
+  useEffect(() => {
+    checkUser();
+    setAuthListener();
+  }, []);
+
+  const setAuthListener = async () => {
+    Hub.listen("auth", (data) => {
+      switch (data.payload.event) {
+        case "signOut":
+          updateFormState(() => ({ ...formState, formType: "signUp" }))
+          break;
+        default:
+          return;
+      }
+    });
+  }
+
+  const checkUser = async () => {
+    try {
+      const user = await Auth.currentAuthenticatedUser();
+      updateUser(user);
+      updateFormState(() => ({ ...formState, formType: "confirmed"}));
+    } catch {
+      updateUser(null);
+    }
+  }
+
   const onChange = (e) => {
     e.persist();
     updateFormState(() => ({...formState, [e.target.name]: e.target.value }))
@@ -44,13 +75,13 @@ const Authentication = () => {
   const confirmSignUp = async () => {
     const { username, authCode } = formState;
     await Auth.confirmSignUp(username, authCode);
-    updateFormState(() => ({ ...formState, formType: "signIn" }))
+    updateFormState(() => ({ ...formState, formType: "signIn" }));
   }
 
   const signIn = async () => {
     const { username, password } = formState;
     await Auth.signIn(username, password);
-    updateFormState(() => ({ ...formState, formType: "confirmed"}))
+    updateFormState(() => ({ ...formState, formType: "confirmed"}));
   }
 
   return (
@@ -151,6 +182,7 @@ const Authentication = () => {
                 label="Username"
                 type="text"
                 fullWidth
+                onChange={onChange}
               />
               <TextField
                 name="password"
@@ -158,6 +190,7 @@ const Authentication = () => {
                 label="Password"
                 type="password"
                 fullWidth
+                onChange={onChange}
               />
               <Button fullWidth variant="contained" onClick={signIn}>
                 Sign In
@@ -183,6 +216,12 @@ const Authentication = () => {
         formType === "confirmed" && (
           <Paper>
             <h1>Signed in!</h1>
+            <Button 
+              variant="contained"
+              onClick={() => Auth.signOut()}
+            >
+              Logout
+            </Button>
           </Paper>
         )
       }
