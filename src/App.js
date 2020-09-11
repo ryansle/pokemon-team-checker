@@ -6,13 +6,16 @@ import Router from "./Router";
 
 // Utilities
 import './App.css';
+import { ProvideAuth } from "./utils/use-auth";
 
 function App() {
   return (
-    <div className="App">
-      <Navbar />
-      <Router />
-    </div>
+    <ProvideAuth>
+      <div className="App">
+        <Navbar />
+        <Router />
+      </div>
+    </ProvideAuth>
   );
 }
 

@@ -13,7 +13,7 @@ const authContext = createContext();
 
 // Provider component that wraps your app and makes auth object
 //  available to any child component that calls useAuth().
-export const ProvideAuth = ({ children }) => {
+export function ProvideAuth({ children }) {
   const auth = useProvideAuth();
   return <authContext.Provider value={auth}>{children}</authContext.Provider>;
 }
@@ -25,9 +25,26 @@ export const useAuth = () => {
 }
 
 // Provider hook tha creates auth object and handles state
-const useProvideAuth = () => {
+function useProvideAuth() {
   const [formState, updateFormState] = useState(initialFormState);
   const [user, updateUser] = useState(null);
+
+  useEffect(() => {
+    checkUser();
+    setAuthListener();
+  }, []);
+
+  const setAuthListener = async () => {
+    Hub.listen("auth", (data) => {
+      switch (data.payload.event) {
+        case "signOut":
+          updateFormState(() => ({ ...formState, formType: "signUp" }))
+          break;
+        default:
+          return;
+      }
+    });
+  }
 
   const checkUser = async () => {
     try {
@@ -40,6 +57,7 @@ const useProvideAuth = () => {
   }
 
   const onChange = (e) => {
+    console.log(e);
     e.persist();
     updateFormState(() => ({...formState, [e.target.name]: e.target.value }))
   }
@@ -62,5 +80,17 @@ const useProvideAuth = () => {
     const { username, password } = formState;
     await Auth.signIn(username, password);
     updateFormState(() => ({ ...formState, formType: "confirmed"}));
+  }
+
+  // Return the user oject and auth methods
+  return {
+    user,
+    formType,
+    formState,
+    signUp,
+    confirmSignUp,
+    signIn,
+    onChange,
+    updateFormState,
   }
 }

@@ -14,80 +14,25 @@ import { Auth, Hub } from "aws-amplify";
 
 // Utilities
 import { makeStyles } from "@material-ui/core/styles";
-
-const initialFormState = {
-  username: "",
-  password: "",
-  email: "",
-  authCode: "",
-  formType: "signUp"
-};
+import { useAuth } from "../utils/use-auth";
 
 const Authentication = () => {
   const classes = useStyles();
   const isSmallScreen = useMediaQuery("(max-width: 1100px)");
 
-  const [formState, updateFormState] = useState(initialFormState); 
-  const [user, updateUser] = useState(null);
-
-  console.log(formState);
-
-  useEffect(() => {
-    checkUser();
-    setAuthListener();
-  }, []);
-
-  const setAuthListener = async () => {
-    Hub.listen("auth", (data) => {
-      switch (data.payload.event) {
-        case "signOut":
-          updateFormState(() => ({ ...formState, formType: "signUp" }))
-          break;
-        default:
-          return;
-      }
-    });
-  }
-
-  const checkUser = async () => {
-    try {
-      const user = await Auth.currentAuthenticatedUser();
-      updateUser(user);
-      updateFormState(() => ({ ...formState, formType: "confirmed"}));
-    } catch {
-      updateUser(null);
-    }
-  }
+  const auth = useAuth();
 
   const onChange = (e) => {
     e.persist();
-    updateFormState(() => ({...formState, [e.target.name]: e.target.value }))
-  }
-
-  const { formType } = formState;
-  
-  const signUp = async () => {
-    const { username, email, password } = formState;
-    await Auth.signUp({ username, password, attributes: { email }});
-    updateFormState(() => ({ ...formState, formType: "confirmSignUp" }));
-  }
-
-  const confirmSignUp = async () => {
-    const { username, authCode } = formState;
-    await Auth.confirmSignUp(username, authCode);
-    updateFormState(() => ({ ...formState, formType: "signIn" }));
-  }
-
-  const signIn = async () => {
-    const { username, password } = formState;
-    await Auth.signIn(username, password);
-    updateFormState(() => ({ ...formState, formType: "confirmed"}));
+    auth.updateFormState(() => (
+      {...auth.formState, [e.target.name]: e.target.value }
+    ))
   }
 
   return (
     <>
       {
-        formType === "signUp" && (
+        auth.formType === "signUp" && (
           <Paper
             className={isSmallScreen ? classes.responsivePaper : classes.paper}
             elevation={24}
@@ -125,7 +70,7 @@ const Authentication = () => {
                 fullWidth
                 onChange={onChange}
               />  
-              <Button fullWidth variant="contained" onClick={signUp}>
+              <Button fullWidth variant="contained" onClick={() => auth.signUp()}>
                 Sign Up
               </Button>
             </form>
@@ -135,8 +80,8 @@ const Authentication = () => {
               <Button 
                 variant="contained" 
                 size="small"
-                onClick={() => updateFormState(() => ({
-                  ...formState, formType: "signIn"
+                onClick={() => auth.updateFormState(() => ({
+                  ...auth.formState, formType: "signIn"
                 }))}
               >
                 SIGN IN
@@ -146,7 +91,7 @@ const Authentication = () => {
         )
       }
       {
-        formType === "confirmSignUp" && (
+        auth.formType === "confirmSignUp" && (
           <Paper
             className={isSmallScreen ? classes.responsivePaper : classes.paper}
             elevation={24}
@@ -159,9 +104,9 @@ const Authentication = () => {
                 label="Confirmation Code"
                 type="text"
                 fullWidth
-                onChange={onChange}
+                onChange={auth.onChange}
               />
-              <Button fullWidth variant="contained" onClick={confirmSignUp}>
+              <Button fullWidth variant="contained" onClick={auth.confirmSignUp}>
                 Confirm Sign Up
               </Button>
             </form>
@@ -169,7 +114,7 @@ const Authentication = () => {
         )
       }
       {
-        formType === "signIn" && (
+        auth.formType === "signIn" && (
           <Paper
             className={isSmallScreen ? classes.responsivePaper : classes.paper}
             elevation={24}
@@ -192,7 +137,7 @@ const Authentication = () => {
                 fullWidth
                 onChange={onChange}
               />
-              <Button fullWidth variant="contained" onClick={signIn}>
+              <Button fullWidth variant="contained" onClick={() => auth.signIn()}>
                 Sign In
               </Button> 
             </form>
@@ -202,8 +147,8 @@ const Authentication = () => {
               <Button 
                 variant="contained" 
                 size="small"
-                onClick={() => updateFormState(() => ({
-                  ...formState, formType: "signUp"
+                onClick={() => auth.updateFormState(() => ({
+                  ...auth.formState, formType: "signUp"
                 }))}
               >
                 SIGN UP
@@ -213,7 +158,7 @@ const Authentication = () => {
         )
       }
       {
-        formType === "confirmed" && (
+        auth.formType === "confirmed" && (
           <Paper>
             <h1>Signed in!</h1>
             <Button 
