@@ -4,6 +4,7 @@ import React from "react";
 import {
   Typography,
   Grid,
+  IconButton,
   useMediaQuery
 } from "@material-ui/core";
 import Typing from "./Typing";
@@ -11,18 +12,39 @@ import Typing from "./Typing";
 // Utilities
 import { makeStyles } from "@material-ui/core/styles";
 
-const PokemonPreview = ({ name, image, types}) => {
+// Assets
+import { MoreVert } from "@material-ui/icons";
+
+const PokemonPreview = ({ name, image, width, types, size="medium"}) => {
   const classes = useStyles();
   const isSmallScreen = useMediaQuery("(max-width: 1100px)");
 
   return (
     <div className={classes.root}>
-      <Typography variant="h5">
-        {name}
-      </Typography>
+      <Grid container justify="space-around">
+        <Grid item>
+          <Grid container direction="column">
+            <Typography 
+              className={classes.title} 
+              variant={size === "medium" ? "h5" : "h6"}
+            >
+              {name}
+            </Typography>
+            <Typography variant={size === "medium" ? "body1" : "body2"}>
+              #001
+            </Typography>
+          </Grid>
+        </Grid>
+        <Grid item>
+          <IconButton className={classes.options} size="small" edge="start">
+            <MoreVert />
+          </IconButton>
+        </Grid>
+      </Grid>
+      
       <img
         src={image}
-        width="150vw"
+        width={width}
         height="auto"
         alt={name}
       />
@@ -45,6 +67,10 @@ const useStyles = makeStyles(() => ({
     justifyContent: "center",
     margin: 5,
   },
+  options: {
+    zIndex: 1,
+    marginBottom: 8,
+  }
 }));
 
 export default PokemonPreview;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 // Components
 import { 
@@ -24,6 +24,32 @@ const Home = () => {
   const classes = useStyles();
   const isSmallScreen = useMediaQuery("(max-width: 1100px)");
   
+  const [pokemon, setPokemon] = useState([]);
+
+  const fetchPokemon = () => {
+    for (let id = 1; id <= 2; id += 1) {
+      fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
+        .then(response => response.json())
+        .then(data => {
+          const current = {
+            id: data.id,
+            name: data.name,
+            types: data.types,
+            sprites: data.sprites.other,
+          }
+          setPokemon(pokemon => [...pokemon, current]);
+        });
+    }
+  }
+
+  useEffect(() => {
+    fetchPokemon();
+  }, []);
+
+  useEffect(() => {
+    console.log(pokemon);
+  }, [pokemon]);
+
   return (
     <>
       <Paper
@@ -63,38 +89,44 @@ const Home = () => {
           <PokemonPreview 
             name="Torterra"
             image="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/389.png"
+            width="150vw"
             types={["grass", "ground"]}
           />
           <PokemonPreview 
             name="Psyduck"
             image="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/54.png"
+            width="150vw"
             types={["water"]}
           />
           <PokemonPreview 
             name="Metagross"
             image="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/376.png"
+            width="150vw"
             types={["steel", "psychic"]}
           />
           <PokemonPreview 
             name="Shuckle"
             image="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/213.png"
+            width="150vw"
             types={["bug", "rock"]}
           />
           <PokemonPreview 
             name="Gabite"
             image="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/444.png"
+            width="150vw"
             types={["dragon", "ground"]}
           />
           <PokemonPreview 
             name="Beartic"
             image="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/614.png"
+            width="150vw"
             types={["ice"]}
           />
         </Grid>
 
         <Divider className={classes.divider}/>
 
-        <Toolbar>
+        {/* <Toolbar>
           <Typography variant="h6">Filter By...</Typography>
           <div className="grow"/>
           <FormControl className={classes.formControl}>
@@ -121,7 +153,19 @@ const Home = () => {
               <MenuItem value="full">Fully Evolved</MenuItem>
             </Select>
           </FormControl>
-        </Toolbar>
+        </Toolbar> */}
+
+        <Grid container justify="flex-start">
+          {/* Fits 7 perfectly on a full-width monitor */}
+          <PokemonPreview 
+            name="Torterra"
+            image="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/389.png"
+            width="120vw"
+            types={["grass", "ground"]}
+            size="small"
+          />
+        </Grid>
+
       </Paper>
     </>
   )

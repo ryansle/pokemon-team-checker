@@ -64,7 +64,6 @@ const Navbar = () => {
               >
                 <AccountCircle 
                   className="white" 
-                  fontSize="medium"
                 />
               </IconButton>
             </Grid>
